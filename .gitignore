@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/Coinqueror.MarketData/Coinqueror.MarketData/appsettings.json
