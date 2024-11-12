@@ -5,6 +5,17 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coinqueror.MarketData", "..\Coinqueror.MarketData\Coinqueror.MarketData\Coinqueror.MarketData.csproj", "{469055F9-8C99-4EBC-B73B-71AA2B07D99B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coinqueror.TradeShifter", "..\Coinqueror.TradeShifter\Coinqueror.TradeShifter\Coinqueror.TradeShifter.csproj", "{2A97C850-FB0B-43AB-9690-5F4CD3DA9E90}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coinqueror.ApiGateway", "..\Coinqueror.ApiGateway\Coinqueror.ApiGateway\Coinqueror.ApiGateway.csproj", "{B5E567E9-74D7-4E20-8CC9-40194E1DBE47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coinqueror.Shared", "Coinqueror.Shared\Coinqueror.Shared.csproj", "{3801C9FD-6C57-4A09-9DF1-C4F94D2FFA0F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2CA9C557-C37B-4194-97B1-B0658D4DE582}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +26,18 @@ Global
 		{469055F9-8C99-4EBC-B73B-71AA2B07D99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{469055F9-8C99-4EBC-B73B-71AA2B07D99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{469055F9-8C99-4EBC-B73B-71AA2B07D99B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A97C850-FB0B-43AB-9690-5F4CD3DA9E90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A97C850-FB0B-43AB-9690-5F4CD3DA9E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A97C850-FB0B-43AB-9690-5F4CD3DA9E90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A97C850-FB0B-43AB-9690-5F4CD3DA9E90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5E567E9-74D7-4E20-8CC9-40194E1DBE47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E567E9-74D7-4E20-8CC9-40194E1DBE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5E567E9-74D7-4E20-8CC9-40194E1DBE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5E567E9-74D7-4E20-8CC9-40194E1DBE47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3801C9FD-6C57-4A09-9DF1-C4F94D2FFA0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3801C9FD-6C57-4A09-9DF1-C4F94D2FFA0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3801C9FD-6C57-4A09-9DF1-C4F94D2FFA0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3801C9FD-6C57-4A09-9DF1-C4F94D2FFA0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
