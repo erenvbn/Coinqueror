@@ -1,6 +1,0 @@
-@Coinqueror.ApiGateway_HostAddress = http://localhost:5133
-
-GET {{Coinqueror.ApiGateway_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
