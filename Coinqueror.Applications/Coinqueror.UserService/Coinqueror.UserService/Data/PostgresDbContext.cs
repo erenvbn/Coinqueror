@@ -1,7 +1,7 @@
 ﻿using Npgsql;
 
 
-namespace Coinqueror.TradeShifter.Data
+namespace Coinqueror.UserService.Data
 {
 
     public class PostgresDbContext

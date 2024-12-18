@@ -1,4 +1,4 @@
-﻿namespace Coinqueror.TradeShifter.Models
+﻿namespace Coinqueror.UserService.Models
 {
     public class UserModel
     {

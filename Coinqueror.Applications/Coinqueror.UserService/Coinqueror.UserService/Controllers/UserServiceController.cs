@@ -1,31 +1,24 @@
 ﻿using Coinqueror.Shared.Models.DTOs;
-using Coinqueror.TradeShifter.Data;
-using Coinqueror.TradeShifter.Models;
-using Coinqueror.TradeShifter.Services.HelperServices;
-using Microsoft.AspNetCore.Http;
+using Coinqueror.UserService.Data;
+using Coinqueror.UserService.Models;
+using Coinqueror.UserService.Services.HelperServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using NuGet.Protocol;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace Coinqueror.TradeShifter.Controllers
+namespace Coinqueror.UserService.Controllers
 {
 
     [Route("api/[controller]")]
     [ApiController]
-    public class TradeShifterController : ControllerBase
+    public class UserServiceController : ControllerBase
     {
         private readonly AppDbContext _context;
         private readonly ILogger _logger;
-        private readonly string name = "TradeShifterController";
+        private readonly string name = "UserServiceController";
         private readonly IConfiguration _configuration;
         private readonly JwtSettings _jwtSettings;
 
-        public TradeShifterController(AppDbContext context, ILogger<TradeShifterController> logger, IConfiguration configuration)
+        public UserServiceController(AppDbContext context, ILogger<UserServiceController> logger, IConfiguration configuration)
         {
             _context = context;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -44,7 +37,15 @@ namespace Coinqueror.TradeShifter.Controllers
         [HttpGet("GetUser/{id}", Name = "GetUser")]
         public IActionResult GetUser(int id)
         {
-            return Ok();
+            var user = _context.Users.Find(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(user);
+            }
         }
 
         // Endpoint to create a new user
@@ -92,7 +93,7 @@ namespace Coinqueror.TradeShifter.Controllers
             }
         }
 
-        // Endpoint to update an existing user by ID
+        //Endpoint to update an existing user by ID
         //DELETE /api/TradeShifter/id
         [HttpPut("UpdateUser/{id}", Name = "UpdateUser")]
         public IActionResult UpdateUser(int id, [FromBody] UserModelDTO userModelDTO)
@@ -145,16 +146,29 @@ namespace Coinqueror.TradeShifter.Controllers
             // Create JWT token
             var expiryDays = 2;
             var jwtKeyString = _configuration["JwtSettings:SecretKey"];
-            var token = StaticHelperServices.GenerateJwtToken(matchingUser, expiryDays, jwtKeyString);
+            var issuer = _configuration["JwtSettings:Issuer"];
+            var audience = _configuration["JwtSettings:Audience"];
 
-            matchingUser.Token = token; // Optional: store the token in the user record
+            var token = StaticHelperServices.GenerateJwtToken(matchingUser, expiryDays, jwtKeyString, issuer, audience);
+
+            // Option : Storing the generated token in an HTTP-only cookie (recommended for security)
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Ensure it's HTTPS only
+                Expires = DateTime.UtcNow.AddDays(expiryDays)
+            };
+
+            Response.Cookies.Append("authToken", token, cookieOptions);
+
+            //matchingUser.Token = token; // Optional: store the token in the user record
             matchingUser.LastLoginDate = DateTime.UtcNow; // Update last login time
             matchingUser.LastLoginExpiryDate = DateTime.UtcNow.AddDays(expiryDays); // Set token expiration
 
             _context.Users.Update(matchingUser); // Save changes to the user
             _context.SaveChanges(); // Commit the changes
 
-            return Ok(new { Token = token, Message = "Login successful" });
+            return Ok(new { Message = $"Login successful Token: {token}" });
         }
 
         [HttpPost("Logout/{userEmail}", Name = "LogoutUser")]

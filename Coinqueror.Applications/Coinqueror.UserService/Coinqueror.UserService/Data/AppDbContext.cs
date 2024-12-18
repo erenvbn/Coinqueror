@@ -1,7 +1,7 @@
-﻿using Coinqueror.TradeShifter.Models;
+﻿using Coinqueror.UserService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Coinqueror.TradeShifter.Data
+namespace Coinqueror.UserService.Data
 {
 
     public class AppDbContext : DbContext

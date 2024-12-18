@@ -1,7 +1,7 @@
-﻿using Coinqueror.TradeShifter.Data;
-using Coinqueror.TradeShifter.Models;
+﻿using Coinqueror.UserService.Data;
+using Coinqueror.UserService.Models;
 
-namespace Coinqueror.TradeShifter.Services
+namespace Coinqueror.UserService.Services
 {
     public class UserService
     {

@@ -1,12 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Coinqueror.TradeShifter.Data;
+﻿using Coinqueror.UserService.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 public class TokenExpiryCheckerService : BackgroundService
 {

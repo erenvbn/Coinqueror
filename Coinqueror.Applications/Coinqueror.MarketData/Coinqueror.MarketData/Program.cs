@@ -21,11 +21,13 @@ var configuration = builder.Configuration;
 var mongoConnectionUri = configuration["Mongo:ConnectionString"];
 var mongoDatabaseName = configuration["Mongo:DatabaseName"];
 var historicalFiveMinutesCollection = configuration["Mongo:HistoricalFiveMinutesCollection"];
+var historicalChangeCollection = configuration["Mongo:HistoricalChangeCollection"];
 var historicalHourlyCollection = configuration["Mongo:HistoricalOneHourCollection"];
 
 if (String.IsNullOrEmpty(mongoConnectionUri) ||
     String.IsNullOrEmpty(mongoDatabaseName) ||
     String.IsNullOrEmpty(historicalFiveMinutesCollection) ||
+    String.IsNullOrEmpty(historicalChangeCollection) ||
     String.IsNullOrEmpty(historicalHourlyCollection))
     throw new Exception("MongoDB settings are required to run the application.");
 
@@ -34,6 +36,7 @@ var mongoDbSettings = new MongoDbSettings
     ConnectionUri = mongoConnectionUri,
     DatabaseName = mongoDatabaseName,
     HistoricalFiveMinutesCollection = historicalFiveMinutesCollection,
+    HistoricalChangeCollection = historicalChangeCollection,
     HistoricalHourlyCollection = historicalHourlyCollection
 };
 
@@ -79,6 +82,13 @@ builder.Services.AddSingleton<IHistoricalFiveMinutesCollection>(provider =>
     return new HistoricalFiveMinutesCollection(collection);
 });
 
+builder.Services.AddSingleton<IHistoricalChangeCollection>(provider =>
+{
+    var mongoDatabase = provider.GetRequiredService<IMongoDatabase>();
+    var collection = mongoDatabase.GetCollection<HistorySpotKlineModel>(mongoDbSettings.HistoricalChangeCollection);
+    return new HistoricalChangeCollection(collection);
+});
+
 builder.Services.AddSingleton<IHistoricalHourlyCollection>(provider =>
 {
     var mongoDatabase = provider.GetRequiredService<IMongoDatabase>();
@@ -91,11 +101,13 @@ builder.Services.AddSingleton<CommonDataOperations>(provider =>
 {
     var binanceClient = provider.GetRequiredService<BinanceRestClient>();
     var historicalFiveMinutesCollection = provider.GetRequiredService<IHistoricalFiveMinutesCollection>();
+    var historicalChangeCollection = provider.GetRequiredService<IHistoricalChangeCollection>();
     var historicalHourlyCollection = provider.GetRequiredService<IHistoricalHourlyCollection>();
 
     return new CommonDataOperations(
         binanceClient,
         historicalFiveMinutesCollection,
+        historicalChangeCollection,
         historicalHourlyCollection,
         provider.GetRequiredService<ILogger<CommonDataOperations>>()
     );
@@ -134,3 +146,6 @@ static async Task<IMongoDatabase> GetMongoDatabase(MongoClient mongoClient, stri
     var database = mongoClient.GetDatabase(databaseName);
     return database;
 }
+
+Console.WriteLine($"Coinqueror.MarketData is starting");
+
